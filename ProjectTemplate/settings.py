@@ -236,8 +236,8 @@ SPECTACULAR_SETTINGS = {
     "COMPONENT_SPLIT_REQUEST": True,
     "REDOC_DIST": "https://cdn.jsdelivr.net/npm/redoc@2.1.5",
     "SCHEMA_PATH_PREFIX": r"/api/v1",
-    "SERVE_PERMISSIONS": ["rest_framework.permissions.IsAdminUser"],
-    "SERVE_AUTHENTICATION": ["rest_framework.authentication.SessionAuthentication"],
+    # "SERVE_PERMISSIONS": ["rest_framework.permissions.IsAdminUser"],
+    # "SERVE_AUTHENTICATION": ["rest_framework.authentication.SessionAuthentication"],
 }
 
 AXES_FAILURE_LIMIT = 5  # lock after 5 failed attempts
