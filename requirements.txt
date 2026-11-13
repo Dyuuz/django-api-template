@@ -33,7 +33,7 @@ whitenoise==6.9.0
 # Utilities
 gunicorn
 python-dotenv>=1.2.2
-requests>=2.33.0
+requests>=2.34.2
 curl-cffi==0.15.0
 pillow>=13.0.0
 packaging==25.0
