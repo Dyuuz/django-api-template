@@ -225,4 +225,3 @@ class BlockScannersMiddleware:
 
         # 6. Reject the suspicious request
         return HttpResponse(status=403)
-
