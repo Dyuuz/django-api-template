@@ -269,6 +269,9 @@ CSRF_COOKIE_HTTPONLY = False  # default — must stay False for JS to read it
 CSRF_COOKIE_SAMESITE = "Lax"  # Django's default
 
 SECURE_SSL_REDIRECT = not DEBUG
+SECURE_REDIRECT_EXEMPT = [
+    r"^api/v1/health-check/$",
+]
 if not DEBUG:
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
