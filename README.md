@@ -132,6 +132,7 @@ Everything is configured through environment variables. See [`.env.example`](.en
 | `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` | optional | Cloudinary credentials |
 | `OTP_THROTTLE_FACTOR` | no (default `0`) | Wrong-code throttling for 2FA |
 | `ROLE`, `PORT` | container only | Process type and port used by `start.sh` |
+| `IP_HASH_SECRET` | yes | securely generated secret used to hash and anonymize IP addresses |
 
 Never commit `.env`. It is already in `.gitignore`.
 
