@@ -43,7 +43,7 @@ typing_extensions==4.14.1
 watchfiles
 
 # SMTP
-resend==2.34.0
+resend==2.53.1
 svix==2.5.0
 email-reply-parser==0.5.12
 
