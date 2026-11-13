@@ -191,6 +191,15 @@ class BlockScannersMiddleware:
             try:
                 total_score = tracker.add_score(ip, score)
 
+                logger.warning(
+                    "Threat tracking diagnostic | IP_HASH=%s | "
+                    "Score=%s | Total=%s | Bannable=%s",
+                    anonymize_ip(ip),
+                    score,
+                    total_score,
+                    ban_manager.is_bannable(ip),
+                )
+
                 ban_details = ban_manager.ban(
                     ip,
                     total_score,
@@ -216,3 +225,4 @@ class BlockScannersMiddleware:
 
         # 6. Reject the suspicious request
         return HttpResponse(status=403)
+
