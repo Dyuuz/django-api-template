@@ -80,6 +80,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     # "Main.middleware.DebugIPMiddleware",
     "django.middleware.security.SecurityMiddleware",
+    "Main.middleware.BlockScannersMiddleware",
     "csp.middleware.CSPMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "corsheaders.middleware.CorsMiddleware",

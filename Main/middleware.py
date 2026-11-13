@@ -2,12 +2,22 @@ import logging
 import uuid
 
 from django.conf import settings
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.utils.deprecation import MiddlewareMixin
+from ipware import get_client_ip
 
 from Main.log_configs.logging_context import set_request, set_request_id
 
+from .security.helper import anonymize_ip
+from .security.ip_ban_manager import IPBanManager
+from .security.threat_detector import ThreatDetector
+from .security.threat_tracker import ThreatTracker
+
 logger = logging.getLogger(__name__)
+
+detector = ThreatDetector()
+tracker = ThreatTracker()
+ban_manager = IPBanManager()
 
 
 class ClientTypeMiddleware(MiddlewareMixin):
@@ -139,3 +149,70 @@ class DebugIPMiddleware:
             request.META.get("REMOTE_ADDR"),
         )
         return self.get_response(request)
+
+
+class BlockScannersMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        ip, _ = get_client_ip(request)
+
+        # 1. Reject previously banned IPs
+        if ip:
+            try:
+                ban_data = ban_manager.is_banned(ip)
+
+                if ban_data:
+                    return HttpResponse(
+                        status=429,
+                        headers={"Retry-After": str(ban_data["remaining"])},
+                    )
+
+            except Exception:
+                logger.exception("Unable to check IP ban status")
+
+        # 2. Normalize request path
+        path = request.path.lower().rstrip("/") or "/"
+
+        # 3. Detect suspicious requests
+        threat = detector.detect(path)
+
+        if threat is None:
+            return self.get_response(request)
+
+        score = threat["score"]
+        reason = threat["reason"]
+
+        ban_details = None
+
+        # 4. Track suspicious activity and enforce bans
+        if ip and ban_manager.is_bannable(ip):
+            try:
+                total_score = tracker.add_score(ip, score)
+
+                ban_details = ban_manager.ban(
+                    ip,
+                    total_score,
+                )
+
+            except Exception:
+                logger.exception(
+                    "Threat tracking failed for IP %s",
+                    ip,
+                )
+
+        # 5. Record security event
+        logger.warning(
+            "Security event | IP_HASH=%s | Path=%s | Method=%s | "
+            "Reason=%s | Score=%s | Ban=%s",
+            anonymize_ip(ip),
+            path,
+            request.method,
+            reason,
+            score,
+            ban_details["level"] if ban_details else "none",
+        )
+
+        # 6. Reject the suspicious request
+        return HttpResponse(status=403)
