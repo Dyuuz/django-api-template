@@ -1,0 +1,37 @@
+{% load static jazzmin %}
+{% get_jazzmin_settings request as jazzmin_settings %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{{ jazzmin_settings.site_title }}{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'vendor/bootswatch/default/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'vendor/adminlte/css/adminlte.min.css' %}">
+  <link rel="stylesheet" href="{% static 'vendor/fontawesome-free/css/all.min.css' %}">
+  <link rel="stylesheet" href="{% static 'jazzmin/css/main.css' %}">
+  <link rel="stylesheet" href="{% static 'two_factor/auth.css' %}">
+  {% block extra_media %}{% endblock %}
+</head>
+<body class="tf-page">
+  <div class="tf-wrap">
+    <header class="tf-brand">
+      {% if jazzmin_settings.login_logo %}
+        <img src="{% static jazzmin_settings.login_logo %}" alt="" class="tf-logo">
+      {% endif %}
+      <a href="{% url 'admin:index' %}" class="tf-brand-name">{{ jazzmin_settings.site_brand }}</a>
+      {% if jazzmin_settings.welcome_sign %}
+        <p class="tf-welcome">{{ jazzmin_settings.welcome_sign }}</p>
+      {% endif %}
+    </header>
+
+    <main class="tf-card">
+      {% block content_wrapper %}
+        {% block content %}{% endblock %}
+      {% endblock %}
+    </main>
+
+    <footer class="tf-footer">&copy; {% now "Y" %} {{ jazzmin_settings.copyright|default:jazzmin_settings.site_brand }}</footer>
+  </div>
+</body>
+</html>

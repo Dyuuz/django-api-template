@@ -1,0 +1,281 @@
+/*  Theme tokens  */
+:root {
+  --tf-bg-1: #eef2ff;
+  --tf-bg-2: #e0e7ff;
+  --tf-card: #ffffff;
+  --tf-text: #1f2937;
+  --tf-muted: #6b7280;
+  --tf-border: #d1d5db;
+  --tf-input-bg: #f9fafb;
+  --tf-accent: #4f46e5;
+  --tf-accent-hover: #4338ca;
+  --tf-ring: rgba(79, 70, 229, 0.25);
+  --tf-danger: #dc2626;
+  --tf-danger-bg: #fef2f2;
+  --tf-shadow: 0 10px 30px rgba(31, 41, 55, 0.12);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --tf-bg-1: #0b1020;
+    --tf-bg-2: #151b34;
+    --tf-card: #1a2038;
+    --tf-text: #e5e7eb;
+    --tf-muted: #9ca3af;
+    --tf-border: #2f3756;
+    --tf-input-bg: #11162b;
+    --tf-accent: #6366f1;
+    --tf-accent-hover: #818cf8;
+    --tf-ring: rgba(129, 140, 248, 0.3);
+    --tf-danger: #f87171;
+    --tf-danger-bg: rgba(248, 113, 113, 0.1);
+    --tf-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
+}
+
+/*  Page  */
+html {
+  min-height: 100%;
+  background: var(--tf-bg-2);
+}
+
+body.tf-page {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  background: linear-gradient(135deg, var(--tf-bg-1), var(--tf-bg-2)) fixed;
+  color: var(--tf-text);
+  font-family: "Source Sans Pro", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Grows with the screen: ~420px on small, up to 560px on large */
+.tf-wrap {
+  width: 100%;
+  max-width: clamp(420px, 40vw, 560px);
+  margin: auto;
+}
+
+/*  Brand  */
+.tf-brand { text-align: center; margin-bottom: 1.5rem; }
+
+.tf-logo {
+  display: block;
+  max-height: 64px;
+  margin: 0 auto 0.75rem;
+}
+
+.tf-brand-name {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--tf-text);
+  text-decoration: none;
+}
+
+.tf-welcome {
+  margin: 0.35rem 0 0;
+  color: var(--tf-muted);
+  font-size: 0.95rem;
+}
+
+/*  Card  */
+.tf-card {
+  background: var(--tf-card);
+  border: 1px solid var(--tf-border);
+  border-radius: 14px;
+  padding: 2rem;
+  box-shadow: var(--tf-shadow);
+}
+
+.tf-card h1,
+.tf-card h2 {
+  margin: 0 0 0.35rem;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--tf-text);
+}
+
+.tf-card p { color: var(--tf-muted); margin: 0 0 1rem; line-height: 1.5; }
+.tf-card a { color: var(--tf-accent); text-decoration: none; }
+.tf-card a:hover { text-decoration: underline; }
+
+/*  Neutralise any Bootstrap grid inside the card  */
+.tf-card .container,
+.tf-card .container-fluid,
+.tf-card .row {
+  width: 100%;
+  max-width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.tf-card [class*="col-"] {
+  flex: 0 0 100%;
+  max-width: 100%;
+  width: 100%;
+  margin-left: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.tf-card [class*="offset-"] { margin-left: 0; }
+
+/*  Form layout (table or div based)  */
+.tf-card table { width: 100%; border-collapse: collapse; }
+.tf-card tr { display: block; margin-bottom: 1rem; }
+.tf-card th,
+.tf-card td { display: block; padding: 0; text-align: left; }
+.tf-card form > div,
+.tf-card form fieldset > div { margin-bottom: 1rem; }
+
+.tf-card label,
+.tf-card th {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--tf-text);
+}
+
+.tf-card input[type="text"],
+.tf-card input[type="password"],
+.tf-card input[type="number"],
+.tf-card input[type="email"],
+.tf-card select {
+  display: block;
+  width: 100%;
+  height: auto;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--tf-border);
+  border-radius: 10px;
+  background: var(--tf-input-bg);
+  color: var(--tf-text);
+  font: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.tf-card input:focus,
+.tf-card select:focus {
+  outline: 0;
+  border-color: var(--tf-accent);
+  box-shadow: 0 0 0 4px var(--tf-ring);
+}
+
+/*  Errors  */
+.tf-card .errorlist,
+.tf-card .alert-danger,
+.tf-card .invalid-feedback,
+.tf-card .help-block {
+  list-style: none;
+  margin: 0.35rem 0 0;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  background: var(--tf-danger-bg);
+  color: var(--tf-danger);
+  font-size: 0.85rem;
+}
+
+/*  Buttons  */
+.tf-card button,
+.tf-card .btn,
+.tf-card input[type="submit"] {
+  display: block;
+  width: 100%;
+  margin: 0.75rem 0 0;
+  padding: 0.75rem 1rem;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.05s;
+}
+
+.tf-card button[type="submit"],
+.tf-card .btn-primary,
+.tf-card .btn-success,
+.tf-card input[type="submit"] {
+  background: var(--tf-accent);
+  border-color: var(--tf-accent);
+  color: #fff;
+}
+
+.tf-card button[type="submit"]:hover,
+.tf-card .btn-primary:hover,
+.tf-card .btn-success:hover,
+.tf-card input[type="submit"]:hover {
+  background: var(--tf-accent-hover);
+  border-color: var(--tf-accent-hover);
+}
+
+.tf-card button:active { transform: translateY(1px); }
+
+/* "Back" and other secondary buttons */
+.tf-card button[name="wizard_goto_step"],
+.tf-card .btn-secondary,
+.tf-card .btn-link,
+.tf-card .btn-default {
+  background: transparent;
+  border-color: var(--tf-border);
+  color: var(--tf-muted);
+}
+
+.tf-card button[name="wizard_goto_step"]:hover,
+.tf-card .btn-secondary:hover {
+  background: var(--tf-input-bg);
+  color: var(--tf-text);
+}
+
+/*  QR code, backup tokens  */
+.tf-card img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 1rem auto;
+  border-radius: 8px;
+}
+
+.tf-card ul { padding-left: 1.25rem; color: var(--tf-muted); }
+
+.tf-card code {
+  background: var(--tf-input-bg);
+  padding: 0.1rem 0.4rem;
+  border-radius: 6px;
+}
+
+/*  Footer  */
+.tf-footer {
+  margin-top: 1.25rem;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--tf-muted);
+}
+
+/*  Responsive  */
+@media (max-width: 480px) {
+  .tf-card { padding: 1.5rem; }
+}
+
+@media (min-width: 992px) {
+  .tf-card { padding: 2.75rem; }
+  .tf-brand-name { font-size: 2.1rem; }
+  .tf-card h1,
+  .tf-card h2 { font-size: 1.5rem; }
+
+  .tf-card input[type="text"],
+  .tf-card input[type="password"],
+  .tf-card input[type="number"],
+  .tf-card input[type="email"],
+  .tf-card select { padding: 0.85rem 1rem; font-size: 1.05rem; }
+
+  .tf-card button,
+  .tf-card .btn,
+  .tf-card input[type="submit"] { padding: 0.9rem 1rem; font-size: 1.05rem; }
+}
