@@ -15,7 +15,7 @@ A production-minded starter for building a JSON API with **Django 6** and **Djan
 - Pagination (20 per page) and `django-filter` enabled globally
 - OpenAPI schema with Swagger UI and ReDoc through `drf-spectacular`
 - `X-Client-Type` header check on `/api/` routes (only `web` is accepted, easy to extend)
-- Health check endpoint, plus `sitemap.xml` and `robots.txt` routes
+- Health check endpoint, plus `robots.txt` routes
 
 **Security**
 - Admin protected by two-factor auth (`django-two-factor-auth`, TOTP and backup codes)
@@ -112,7 +112,7 @@ curl http://127.0.0.1:8000/api/v1/health-check/
 | `/account/login/` | Two-factor login (also the admin login) |
 | `/account/two_factor/setup/` | Enrol an authenticator app |
 | `/admin/` | Admin, requires a verified 2FA device |
-| `/api/v1/sitemap.xml`, `/api/v1/robots.txt` | SEO helpers |
+| `/api/v1/robots.txt` | SEO helpers |
 
 **Admin first login:** sign in at `/account/login/`, then enrol an authenticator app at `/account/two_factor/setup/`. The admin is only available to users with a verified device.
 
@@ -143,7 +143,7 @@ Never commit `.env`. It is already in `.gitignore`.
 3. **Add an endpoint.** Subclass `APIView` or a DRF viewset, decorate it with `extend_schema` so it shows up in the docs, and set `throttle_scope = "login"` (and so on) where you want rate limiting, since the default is `ScopedRateThrottle`.
 4. **Return errors consistently.** Subclass `AppError`, set `code`, `message` and `status`, and raise it. The exception handler turns it into the standard error envelope.
 5. **Background jobs.** Put Celery tasks in `<app>/tasks.py` (they are auto-discovered) and schedule periodic ones in `beat_schedule` in `ProjectTemplate/celery.py`.
-6. **Clean up placeholders.** Set the real sender in `RESEND_FROM_EMAIL`, the real domain in `Main/templates/robots.txt`, and your own URL names in `Main/sitemaps.py`.
+6. **Clean up placeholders.** Set the real sender in `RESEND_FROM_EMAIL`, the real domain in `Main/templates/robots.txt`.
 
 ## Running tests and checks
 
@@ -179,7 +179,6 @@ IP geolocation needs a MaxMind GeoLite2 City database at `geoip/GeoLite2-City.mm
 This is a template, so a few pieces are scaffolding that you will want to complete:
 
 - **Login-alert emails are not wired up.** `Main/signals.py` imports `send_login_alert` from `Main/tasks.py`, which is empty, and `MainConfig.ready()` doesn't import the signals. Write the task (the HTML helpers live in `Main/smtp/`) and register the signals in `apps.py` to enable login alerts and geolocation on login.
-- **`sitemap.xml` is a placeholder.** `Main/sitemaps.py` lists URL names (`homepage`, `about`, ...) that don't exist in this project, so the sitemap fails until you replace them with your own.
 - **No tests yet.** `tests/` contains empty files. Start with a test for the health-check endpoint.
 - **Cloudinary is configured but not active.** `STORAGES["default"]` uses the local filesystem. Point it at `cloudinary_storage.storage.MediaCloudinaryStorage` to use Cloudinary for uploads.
 - **`pgjson.py`** (a simple Postgres JSON export/restore script) is listed in `.gitignore` on purpose and isn't part of the published template.
